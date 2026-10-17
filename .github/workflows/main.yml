@@ -15,14 +15,18 @@ jobs:
           flutter-version: '3.19.x'
           channel: 'stable'
           
-      # Yeh command bina package name ke error diye direct android folder generate kar degi
-      - run: flutter create . --platforms=android
-          
-      - run: flutter pub get
-      - run: flutter build apk --release
-      
+      - name: Build APK Cleanly
+        run: |
+          flutter create temp_app --org com.manuu.autologin
+          rm -rf temp_app/lib/*
+          cp -r lib/* temp_app/lib/
+          cp pubspec.yaml temp_app/pubspec.yaml
+          cd temp_app
+          flutter pub get
+          flutter build apk --release
+
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: release-apk
-          path: build/app/outputs/flutter-apk/app-release.apk
+          path: temp_app/build/app/outputs/flutter-apk/app-release.apk
