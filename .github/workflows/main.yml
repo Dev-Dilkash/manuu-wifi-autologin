@@ -15,9 +15,6 @@ jobs:
           flutter-version: '3.19.x'
           channel: 'stable'
           
-      # Yeh command automatically missing Android/Gradle files create kar degi!
-      - run: flutter create . --platforms=android --org com.manuu.autologin
-          
       - run: flutter pub get
       - run: flutter build apk --release
       
